@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using aspnetapp.Models;
 
 
 namespace aspnetapp.Controllers
@@ -16,7 +10,7 @@ namespace aspnetapp.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(new { Message = "The API is updated and working!" });
+            return Ok(new { Message = "This API is updated, up and running!" });
         }
     }
 

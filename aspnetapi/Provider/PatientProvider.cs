@@ -2,6 +2,7 @@
 using aspnetapp.DataAccessLayer.Repositories;
 using System.Collections.Generic;
 using aspnetapp.Provider.Contracts;
+using aspnetapp.Model;
 
 namespace aspnetapp.Provider
 {

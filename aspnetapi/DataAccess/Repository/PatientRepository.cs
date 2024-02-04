@@ -2,7 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using aspnetapp.Models.Dto;
+using aspnetapp.Model;
+using aspnetapp.Model.Dto;
 
 namespace aspnetapp.DataAccessLayer.Repositories
 {

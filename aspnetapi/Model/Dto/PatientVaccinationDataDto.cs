@@ -1,9 +1,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace aspnetapp.Models;
+namespace aspnetapp.Model.Dto;
 
-public class Patient_Vaccination_Data
+public class PatientVaccinationDataDto
 {
     public int Id { get; set; }
     public int Patient_id { get; set; }

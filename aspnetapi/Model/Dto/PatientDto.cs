@@ -1,6 +1,6 @@
 using System;
 
-namespace aspnetapp.Models.Dto;
+namespace aspnetapp.Model.Dto;
 
 public class PatientDto
 {

@@ -17,10 +17,8 @@ docker run -d --name azuresqledge --cap-add SYS_PTRACE \
 this will bring up an azure sql instance, listening to port 1433 in docker mapped to 57000 in the host
 
 
-# Step 3: type
+# Step 3: launch the app
 ```
-
-
 dotnet buil
 dotnet run
 ```
@@ -34,5 +32,15 @@ http://localhost:5000/api/test
 
 
 ## Development notes
+
+1. nuget install this dependency first: Microsoft.EntityFrameworkCore.Design
+
+2. then run this script
+```
 dotnet tool install --global dotnet-ef --version 8.0
-Microsoft.EntityFrameworkCore.Design
+```
+
+3. for schema changes, need run the following script
+```
+dotnet ef migrations add ${migration name}
+```

@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using aspnetapp.Model;
 
 namespace aspnetapp.Provider.Contracts
 {

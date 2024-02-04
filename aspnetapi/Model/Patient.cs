@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 using Microsoft.EntityFrameworkCore.SqlServer;
 
-namespace aspnetapp
+namespace aspnetapp.Model
 {
     
    

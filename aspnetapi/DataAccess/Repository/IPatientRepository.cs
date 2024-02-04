@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using aspnetapp.Models.Dto;
+using aspnetapp.Model;
+using aspnetapp.Model.Dto;
 
 
 namespace aspnetapp.DataAccessLayer.Repositories

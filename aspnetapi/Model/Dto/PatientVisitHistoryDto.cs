@@ -1,9 +1,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace aspnetapp.Models;
+namespace aspnetapp.Model.Dto;
 
-public class Patient_Visit_History
+public class PatientVisitHistoryDto
 {
    
     public int Id { get; set; }

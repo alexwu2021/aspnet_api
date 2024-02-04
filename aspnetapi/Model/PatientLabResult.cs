@@ -1,12 +1,15 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace aspnetapp.Models;
+namespace aspnetapp.Model;
 
-public class Patient_Lab_Result
+public class PatientLabResult
 {
     
+
     public int Id { get; set; }
+    
+    public int Patient_id { get; set; }
     public int Lab_visit_id { get; set; }
     
     public string Test_name { get; set; }

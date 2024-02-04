@@ -11,7 +11,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using aspnetapp.Config;
 using aspnetapp.DataAccessLayer.Repositories;
-using aspnetapp.Models.Dto;
+using aspnetapp.Model;
+using aspnetapp.Model.Dto;
 using AutoMapper;
 using Marvin.Cache.Headers;
 
