@@ -6,8 +6,8 @@ namespace aspnetapp.Models;
 public class Patient_Visit_History
 {
    
-    [Key] public long Id { get; set; }
-    public long Patient_id { get; set; }
+    public int Id { get; set; }
+    public int Patient_id { get; set; }
     public DateTime Visit_date { get; set; }
     
     

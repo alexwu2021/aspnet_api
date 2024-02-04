@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using aspnetapp;
 using aspnetapp.DataAccessLayer.DBContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

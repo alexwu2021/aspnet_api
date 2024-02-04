@@ -6,8 +6,8 @@ namespace aspnetapp.Models;
 public class Patient_Lab_Result
 {
     
-    [Key] public long Id { get; set; }
-    public long Lab_visit_id { get; set; }
+    public int Id { get; set; }
+    public int Lab_visit_id { get; set; }
     
     public string Test_name { get; set; }
     public string Test_result { get; set; }

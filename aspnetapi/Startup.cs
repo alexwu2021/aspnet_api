@@ -1,23 +1,14 @@
 ﻿using System;
-using aspnetapp.Config;
 using aspnetapp.DataAccessLayer.DBContexts;
 using aspnetapp.DataAccessLayer.Repositories;
-using aspnetapp.Provider.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using MySql.EntityFrameworkCore.Infrastructure;
-using MySql.EntityFrameworkCore;
-//using MySql.EntityFrameworkCore.Properties;
-//using MySql.EntityFrameworkCore.Extensions;
 
-//using MySQL.EntityFrameworkCore.Extensions;
 namespace aspnetapp
 {
     public class Startup
@@ -41,8 +32,6 @@ namespace aspnetapp
 
             //services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             
-
-            //AddScoped 针对每一次 HTTP 请求都会建立一个新的实例（视频P1）
             services.AddScoped<IPatientRepository, PatientRepository>();
             
             services.AddDbContext<PatientDbContext>(options =>

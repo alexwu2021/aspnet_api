@@ -5,9 +5,9 @@ namespace aspnetapp.Models;
 
 public class Patient_Medication
 {
-    [Key] public long Id { get; set; }
-    public long Patient_id { get; set; }
-    public long Visit_id { get; set; }
+    public int Id { get; set; }
+    public int Patient_id { get; set; }
+    public int Visit_id { get; set; }
     
     public string Medicine_name { get; set; }
     public string Dosage { get; set; }
