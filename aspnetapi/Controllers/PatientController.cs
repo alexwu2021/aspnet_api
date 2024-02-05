@@ -165,13 +165,14 @@ namespace aspnetapp.Controllers
         //[Consumes("application/json", "multipart/form-data")]
         public async Task<IActionResult> CreatePatient([FromBody]PatientAddDto patientAddDto)
         {
-            
-            var entity = _mapper.Map<Patient>(patientAddDto);
-            _patientRepository.AddPatient(entity);
+            var patientToAddEntity = _mapper.Map<Patient>(patientAddDto);
+            _patientRepository.AddPatient(patientToAddEntity);
             await _patientRepository.SaveAsync();
+            var returnDto = _mapper.Map<PatientDto>(patientToAddEntity);
+            return CreatedAtAction(nameof(GetPatientByPatientId),
+                new { patientId = returnDto.Id},
+                returnDto);
             
-            //return null;//CreatedAtRoute(nameof(GetCompany), new { companyId = entity.Id }, shapedData);
-            return NotFound();
         }
         #endregion
     }

@@ -1,9 +1,9 @@
 ﻿
-
 using Microsoft.EntityFrameworkCore;
 using System;
-
+using System.ComponentModel.DataAnnotations.Schema;
 using aspnetapp.Model;
+using MySql.EntityFrameworkCore.Extensions;
 
 
 namespace aspnetapp.DataAccessLayer.DBContexts
@@ -21,6 +21,8 @@ namespace aspnetapp.DataAccessLayer.DBContexts
             
             modelBuilder.Entity<Patient>().ToTable("patient");
             modelBuilder.Entity<Patient>().HasKey(a => a.Id);
+            modelBuilder.Entity<Patient>() .Property(e => e.Id).ForMySQLHasDefaultValue();
+            
             modelBuilder.Entity<Patient>().Property(x => x.LastName).HasMaxLength(100);
             modelBuilder.Entity<Patient>().Property(x => x.Address).HasMaxLength(200);
             modelBuilder.Entity<Patient>().Property(x => x.City).HasMaxLength(100);
@@ -35,6 +37,7 @@ namespace aspnetapp.DataAccessLayer.DBContexts
            
             modelBuilder.Entity<PatientLabVisit>().ToTable("patient_lab_visit");
             modelBuilder.Entity<PatientLabVisit>().HasKey(a => a.Id);
+            modelBuilder.Entity<Patient>() .Property(e => e.Id).ForMySQLHasDefaultValue();
             modelBuilder.Entity<PatientLabVisit>().Property(x => x.Patient_id).IsRequired();
             modelBuilder.Entity<PatientLabVisit>().Property(x => x.Lab_name).IsRequired().HasMaxLength(200);
             modelBuilder.Entity<PatientLabVisit>().Property(x => x.Lab_test_request).IsRequired().HasMaxLength(100);
@@ -54,6 +57,7 @@ namespace aspnetapp.DataAccessLayer.DBContexts
             
             modelBuilder.Entity<PatientLabResult>().ToTable("patient_lab_result");
             modelBuilder.Entity<PatientLabResult>().HasKey(a => a.Id);
+            modelBuilder.Entity<Patient>() .Property(e => e.Id).ForMySQLHasDefaultValue();
             modelBuilder.Entity<PatientLabResult>().Property(x => x.Patient_id).IsRequired();
             modelBuilder.Entity<PatientLabResult>().Property(x => x.Test_name).IsRequired().HasMaxLength(100);
             modelBuilder.Entity<PatientLabResult>().Property(x => x.Test_observation).HasMaxLength(200);
@@ -62,8 +66,8 @@ namespace aspnetapp.DataAccessLayer.DBContexts
             
             modelBuilder.Entity<PatientMedication>().ToTable("patient_medicine");
             modelBuilder.Entity<PatientMedication>().HasKey(a => a.Id);
+            modelBuilder.Entity<Patient>() .Property(e => e.Id).ForMySQLHasDefaultValue();
             modelBuilder.Entity<PatientMedication>().Property(x => x.Patient_id).IsRequired();
-            
             modelBuilder.Entity<PatientMedication>().Property(x => x.Visit_id);
             modelBuilder.Entity<PatientMedication>().Property(x => x.Medicine_name).HasMaxLength(200);
             modelBuilder.Entity<PatientMedication>().Property(x => x.Dosage).HasMaxLength(100);
@@ -74,6 +78,7 @@ namespace aspnetapp.DataAccessLayer.DBContexts
             
             modelBuilder.Entity<PatientVaccinationData>().ToTable("patient_vaccination_data");
             modelBuilder.Entity<PatientVaccinationData>().HasKey(a => a.Id);
+            modelBuilder.Entity<Patient>() .Property(e => e.Id).ForMySQLHasDefaultValue();
             modelBuilder.Entity<PatientVaccinationData>().Property(x => x.Patient_id).IsRequired();
             modelBuilder.Entity<PatientVaccinationData>().Property(x => x.Vaccine_name).IsRequired().HasMaxLength(100);
             modelBuilder.Entity<PatientVaccinationData>().Property(x => x.Vaccine_date).IsRequired();
@@ -164,6 +169,8 @@ namespace aspnetapp.DataAccessLayer.DBContexts
             //Conventions.Remove<PluralizingTableNameConvention>();
             Console.WriteLine("Done sending data to Patient table");
         }
+
+        
     }
 }
 
