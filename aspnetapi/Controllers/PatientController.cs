@@ -155,5 +155,18 @@ namespace aspnetapp.Controllers
         }
         #endregion HttpGet
         
+        
+        #region HttpPost
+        
+        [HttpPost("{patientAddDto}", Name = nameof(CreatePatient))]
+        //[Consumes("application/json")]
+        public async Task<IActionResult> CreatePatient([FromBody]PatientAddDto patientAddDto)
+        {
+            var entity = _mapper.Map<Patient>(patientAddDto);
+            _patientRepository.AddPatient(entity);
+            await _patientRepository.SaveAsync();
+            return null;//CreatedAtRoute(nameof(GetCompany), new { companyId = entity.Id }, shapedData);
+        }
+        #endregion
     }
 }

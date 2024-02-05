@@ -32,4 +32,7 @@ public class ProjectConstants
     public static readonly string PatientVaccinationEndPoint
         = "https://testapi.mindware.us/Patient-vaccination";
 
+
+    public static readonly int MAX_LIFE_SPAN_IN_DAYS = 200 * 365;
+
 }

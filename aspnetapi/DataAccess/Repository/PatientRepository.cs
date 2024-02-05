@@ -70,6 +70,11 @@ namespace aspnetapp.DataAccessLayer.Repositories
         {
             return (_dbContext.SaveChanges() >= 0);
         }
+        
+        public async Task<bool> SaveAsync()
+        {
+            return await _dbContext.SaveChangesAsync() >= 0;
+        }
 
         public void Dispose()
         {
