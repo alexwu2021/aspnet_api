@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using aspnetapp.Model;
 using aspnetapp.Model.Dto;
+using Microsoft.EntityFrameworkCore;
 
 namespace aspnetapp.DataAccessLayer.Repositories
 {
@@ -27,7 +29,25 @@ namespace aspnetapp.DataAccessLayer.Repositories
             return _dbContext.Patients.SingleOrDefault(a => a.Id == patientId);
         }
 
+        public async Task<bool> IsPatientExistingAsync(int patientId)
+        {
+            if (patientId <= 0)
+            {
+                throw new ArgumentNullException(nameof(patientId));
+            }
 
+            return await _dbContext.Patients.AnyAsync(x => x.Id == patientId);
+        }
+
+        public async Task<Patient> GetPatientAsync(int patientId)
+        {
+            if (patientId <= 0)
+            {
+                throw new ArgumentNullException(nameof(patientId));
+            }
+            return await _dbContext.Patients.FirstOrDefaultAsync(x => x.Id == patientId);
+        }
+        
 
         public void AddPatient(Patient patient)
         {

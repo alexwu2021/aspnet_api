@@ -70,29 +70,17 @@ namespace aspnetapp.Controllers
         //[ResponseCache(Duration = 60)]                                        
         //[HttpCacheExpiration(CacheLocation = CacheLocation.Public, MaxAge = 1800)] 
         //[HttpCacheValidation(MustRevalidate = false)]                              
-        public ActionResult GetPatientByPatientId(int patientId
-            //,
-              //                                                  [FromQuery]PatientDtoParameters parameters
-            )
-        {
+        public async Task<IActionResult> GetPatientByPatientId(int patientId) {
             
-            GetAuthorToken();
+            //GetAuthorToken();
             
-            // use await should
-            if (_patientRepository.IsPatientRegistered(patientId))
+            if (await _patientRepository.IsPatientExistingAsync(patientId))
             {
-                var patient = //await 
-                    _patientRepository.GetPatient(patientId);
-                    //GetPatientsAsync(patientId, parameters);
-
-                    
-                var patientDto = _mapper.Map<PatientDto>(patient);
+                var pa = await _patientRepository.GetPatientAsync(patientId);
+                var patientDto = _mapper.Map<IEnumerable<PatientDto>>(pa);
                 return Ok(patientDto);
             }
-            else
-            {
-                return NotFound();
-            }
+            return NotFound();
         }
             
         

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using aspnetapp.Model;
 using aspnetapp.Model.Dto;
 
@@ -13,5 +14,9 @@ namespace aspnetapp.DataAccessLayer.Repositories
         //bool Save();
         
         bool IsPatientRegistered(long patientId);
+
+
+        Task<Patient> GetPatientAsync(int patientId);
+         Task<bool> IsPatientExistingAsync(int patientId);
     }
 }
