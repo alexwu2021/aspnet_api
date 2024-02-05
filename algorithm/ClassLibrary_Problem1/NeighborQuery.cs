@@ -1,9 +1,9 @@
 ﻿namespace ClassLibraryProb1;
 
  public class NeighborQuery
-    {
-
-        private static object[] lockRoot = new Object[] { };
+ {
+        
+        private static readonly object lockRoot = new object();
         private static int[][] prefixMatrix;
 
         private static int[][] directions = { 

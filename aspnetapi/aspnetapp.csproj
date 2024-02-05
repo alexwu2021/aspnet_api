@@ -17,7 +17,6 @@
   <ItemGroup>
     <Folder Include="doc\RunScreenShots\" />
     <Folder Include="Migrations\" />
-    <Folder Include="Utility\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Configuration.ConfigurationManager">
