@@ -37,24 +37,24 @@ namespace aspnetapp.Controllers
 {
     [ApiController]
     [Route("api/v1/patient/")]
-    //[ResponseCache(CacheProfileName = "120sCacheProfile")]  // TODO: WILL CREATE 
+    //[ResponseCache(CacheProfileName = "120sCacheProfile")]  // TODO: will create cache profile
     public class PatientsController : ControllerBase
     {
         private readonly IPatientRepository _patientRepository;
-        //private readonly IMapper _mapper; // TODO: WILL USE ASSEMBLY WIDE DI
+        //private readonly IMapper _mapper; // TODO: for now just hard coded, we will move towards assembly-wide auto config
         private Mapper _mapper;
         
         public PatientsController(IPatientRepository patientRepository
-            //, IMapper mapper
+            //, IMapper mapper // TODO: for now just hard coded, we will move towards assembly-wide auto config 
             )
         {
             _patientRepository = patientRepository ?? throw new ArgumentNullException(nameof(patientRepository));
             var mapperConfig = new MapperConfiguration(cfg =>{
                 cfg.CreateMap<Patient, PatientDto>();});
-            //_mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-
-            //_mapper = MapperConfig.InitializePatientMapper();
             
+            // TODO: for now just hard coded, we will move towards assembly-wide auto config
+            //_mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            //_mapper = MapperConfig.InitializePatientMapper();
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Patient, PatientDto>();
@@ -76,7 +76,7 @@ namespace aspnetapp.Controllers
             if (await _patientRepository.IsPatientExistingAsync(patientId))
             {
                 var pa = await _patientRepository.GetPatientAsync(patientId);
-                var patientDto = _mapper.Map<IEnumerable<PatientDto>>(pa);
+                var patientDto = _mapper.Map<PatientDto>(pa);
                 return Ok(patientDto);
             }
             return NotFound();
@@ -138,19 +138,20 @@ namespace aspnetapp.Controllers
         */
 
         [HttpGet(Name = nameof(GetAllPatients))]
-        public async Task<IActionResult> GetAllPatients()
+        public  ActionResult GetAllPatients()
         {
             var patients = _patientRepository.GetPatients();
-            if (patients == null)
+            if (patients.Any())
             {
-                return NotFound();
-            }
-            var patientDtos = _mapper.Map<IEnumerable<PatientDto>>(patients);
-            if(patientDtos != null && patientDtos.Any())
-            {
+                var patientDtos = new List<PatientDto>();
+                foreach (var patient in patients)
+                {
+                    patientDtos.Add(_mapper.Map<PatientDto>(patient));
+                }
                 return Ok(patientDtos);
             }
             return NotFound();
+            
         }
         #endregion HttpGet
         
