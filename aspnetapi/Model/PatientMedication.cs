@@ -18,4 +18,6 @@ public class PatientMedication
     public string Prescription_period { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
+    
+    public Patient Patient { get; set; } = null!;
 }

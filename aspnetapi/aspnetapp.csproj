@@ -15,6 +15,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="doc\RunScreenShots\" />
     <Folder Include="Migrations\" />
     <Folder Include="Utility\" />
   </ItemGroup>

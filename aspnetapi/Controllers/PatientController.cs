@@ -38,24 +38,17 @@ namespace aspnetapp.Controllers
 {
     [ApiController]
     [Route("api/v1/patient/")]
-    //[ResponseCache(CacheProfileName = "120sCacheProfile")]  // TODO: will create cache profile
     public class PatientController : ControllerBase
     {
         private readonly IPatientRepository _patientRepository;
-        //private readonly IMapper _mapper; // TODO: for now just hard coded, we will move towards assembly-wide auto config
-        Mapper _mapper;
+        private Mapper _mapper;
         
-        public PatientController(IPatientRepository patientRepository
-            //, IMapper mapper // TODO: for now just hard coded, we will move towards assembly-wide auto config 
-            )
+        public PatientController(IPatientRepository patientRepository)
         {
             _patientRepository = patientRepository ?? throw new ArgumentNullException(nameof(patientRepository));
             var mapperConfig = new MapperConfiguration(cfg =>{
                 cfg.CreateMap<Patient, PatientDto>();});
             
-            // TODO: for now just hard coded, we will move towards assembly-wide auto config
-            //_mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            //_mapper = MapperConfig.InitializePatientMapper();
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Patient, PatientDto>();
@@ -69,11 +62,7 @@ namespace aspnetapp.Controllers
         #region HttpGet
 
         [HttpGet("{patientId}", Name = nameof(GetPatientByPatientId))]
-        //[ResponseCache(Duration = 60)]                                        
-        //[HttpCacheExpiration(CacheLocation = CacheLocation.Public, MaxAge = 1800)] 
-        //[HttpCacheValidation(MustRevalidate = false)]                              
         public async Task<IActionResult> GetPatientByPatientId(int patientId) {
-            
             if (await _patientRepository.IsPatientExistingAsync(patientId))
             {
                 var pa = await _patientRepository.GetPatientAsync(patientId);
@@ -88,56 +77,26 @@ namespace aspnetapp.Controllers
         private async  void GetAuthorToken()
         {
             string url = Constants.ProjectConstants.RemoteServiceAuthEndPoint;
-            
             string body = ProjectConstants.RemoteServiceAuthCredential;
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
             request.Content = new StringContent(body, Encoding.UTF8, "application/json");
-            
-            
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept
                 .Add(new MediaTypeWithQualityHeaderValue("application/json")); 
             request.Content = new StringContent(body,Encoding.UTF8, "application/json");
             string tokenRetrieved = string.Empty;
             HttpResponseMessage response =  await client.PostAsync(url, request.Content);
-            
             try
             {
-
                 var sa = response.Content.ReadAsStringAsync().Result.Split(" ,:".ToCharArray());
-                //var tokenHandler = new TokenReader();// sa[1], validationParameters);
                 tokenRetrieved = sa[1];
                 Console.Write("token retrieved: " + tokenRetrieved);
-
             } catch (Exception ex) {
-                // Log the reason why the token is not valid
                Console.Write(ex);
             }
-            
         }
-        private void SetPrincipal(IPrincipal principal)
-        {
-            Thread.CurrentPrincipal = principal;
-            /*if (HttpContext.Current != null)
-            {
-                HttpContext.Current.User = principal;
-            }*/
-        }
-
-        /*
-        static HttpClient client = new HttpClient();
-        static async Task<Product> GetProductAsync(string path)
-        {
-            Product product = null;
-            HttpResponseMessage response = await client.GetAsync(path);
-            if (response.IsSuccessStatusCode)
-            {
-                product = await response.Content.ReadAsAsync<Product>();
-            }
-            return product;
-        }
-        */
-
+     
+        
         [HttpGet(Name = nameof(GetAllPatients))]
         public  ActionResult GetAllPatients()
         {
@@ -161,8 +120,6 @@ namespace aspnetapp.Controllers
         
         
         [HttpPost()]
-        //[Route("create")]
-        //[Consumes("application/json", "multipart/form-data")]
         public async Task<IActionResult> CreatePatient([FromBody]PatientAddDto patientAddDto)
         {
             var patientToAddEntity = _mapper.Map<Patient>(patientAddDto);

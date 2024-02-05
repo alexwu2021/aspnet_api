@@ -18,5 +18,7 @@ public class PatientVisitHistory
     
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
+    
+    public Patient Patient { get; set; } = null!;
 
 }

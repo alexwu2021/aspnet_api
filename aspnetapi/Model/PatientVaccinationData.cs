@@ -13,4 +13,6 @@ public class PatientVaccinationData
     public string Administered_by { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
+    
+    public Patient Patient { get; set; } = null!;
 }

@@ -1,33 +1,44 @@
 ### Overall Instruction for Environment Setup and Run 
 
-# Step 1: launch dockerd
-this can be achieved by just launching docker desktop
-once the docker desktop UI is visible, we are good
+# prerequisite for running this app: you need your access to a mysql instance, local or remote 
 
+
+# Step 1: 
+locate this file: aspnet_api/aspnetapi/appsettings.Development.json
+
+and change the user name and password for your db environment
+
+```
+"devMySqlConnStr": "Data Source=localhost,3306;DataBase=patientdb;User Id=test_user_1;password=Test_user_1_p"
+```
 
 # Step 2: cd the aspnetapi folder, and type the following command
-
-```
-docker run -d --name azuresqledge --cap-add SYS_PTRACE \
-  -e 'ACCEPT_EULA=1' \
-  -e 'MSSQL_SA_PASSWORD=Str#ng_Passw#rd' \
-  -p 57000:1433 \
-   mcr.microsoft.com/azure-sql-edge
-```
-this will bring up an azure sql instance, listening to port 1433 in docker mapped to 57000 in the host
-
-
-# Step 3: launch the app
 ```
 dotnet buil
 dotnet run
 ```
 
-after this, we can access the API end points like 
+after this, a default browser will pop up, and we can try the follow the API end points 
 ```
-http://localhost:5000/api/test
+[HTTPGET] https://localhost:5000/api/test
+[HTTPGET] https://localhost:5001/api/v1/patient      --> show all the patients
+[HTTPGET] https://localhost:5001/api/v1/patient/1    --> show a particular patient, here is 1
+[HTTPPOST] https://localhost:5001/api/v1/patient     --> for creating a new patient
+```
+you may want to use postman to do the post, as of now, the patient create functionality is up, as proven
+by the unit tests. 
 
-```
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -35,7 +46,7 @@ http://localhost:5000/api/test
 
 1. nuget install this dependency first: Microsoft.EntityFrameworkCore.Design
 
-2. then run this script
+2. then run this script to install dotnet-ef
 ```
 dotnet tool install --global dotnet-ef --version 8.0
 ```

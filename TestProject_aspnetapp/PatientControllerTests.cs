@@ -38,23 +38,27 @@ public class Tests
     [Fact]
     public async Task TestCreatePatient()
     {
-        var controller = new PatientController(GetPatientRepository());
-        var requestDto = new PatientAddDto
+        for (int i = 0; i < 15; ++i)
         {
-            Ssn = "987654321",
-            Dob = new DateTime(1970, 7, 1),
-            Email = "1101@test.com",
-            FirstName = "Jone",
-            MiddleName = "M",
-            LastName = "Doe",
-            Address = "Some where",
-            City = "City of NoWhere",
-            State = "California",
-            Zip = "95000",
-            CreatedAt = new DateTime(2024, 2, 1) 
-        };
-        var actionResult = await controller.CreatePatient(requestDto);
-        Assert.NotNull(actionResult);
+            Random random = new Random();
+            var controller = new PatientController(GetPatientRepository());
+            var requestDto = new PatientAddDto
+            {
+                Ssn = (100000000 + random.Next() % 899999999).ToString(),
+                Dob = new DateTime(1970, 7, 1),
+                Email = "Email_" + random.Next(10) + "__unit_test@test.com",
+                FirstName = "FName_" + random.Next(10) + "__unit_test",
+                MiddleName = "M",
+                LastName = "LName_" + random.Next(10) + "__unit_test",
+                Address = "Address #_" + random.Next(10) + "__unit_test",
+                City = "City #_" + random.Next(10) + "__unit_test",
+                State = "California",
+                Zip = "95000",
+                CreatedAt = new DateTime(2024, 2, 1) 
+            };
+            var actionResult = await controller.CreatePatient(requestDto);
+            Assert.NotNull(actionResult);    
+        }
     }
     
 
@@ -67,16 +71,16 @@ public class Tests
     }
     
     
-    [Fact]
-    public async Task UpdateTest()
-    {
-    }
+    // [Fact]
+    // public async Task UpdateTest()
+    // {
+    // }
     
 
-    [Fact]
-    public async Task DeleteTest()
-    {
-    }
+    // [Fact]
+    // public async Task DeleteTest()
+    // {
+    // }
     
     
 }

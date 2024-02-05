@@ -22,7 +22,7 @@ namespace aspnetapp
                 try
                 {
                     var dbContext = scope.ServiceProvider.GetService<PatientDbContext>();
-                    dbContext.Database.EnsureDeleted();
+                    // dbContext.Database.EnsureDeleted();
                     dbContext.Database.Migrate();
                     dbContext.Database.EnsureCreated();
                     Console.WriteLine("number of seeded patients: " + dbContext.Patients.Count());

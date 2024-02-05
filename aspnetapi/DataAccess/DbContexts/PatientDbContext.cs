@@ -18,6 +18,7 @@ namespace aspnetapp.DataAccessLayer.DBContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // the schema part
             
             modelBuilder.Entity<Patient>().ToTable("patient");
             modelBuilder.Entity<Patient>().HasKey(a => a.Id);
@@ -43,6 +44,13 @@ namespace aspnetapp.DataAccessLayer.DBContexts
             modelBuilder.Entity<PatientLabVisit>().Property(x => x.Lab_test_request).IsRequired().HasMaxLength(100);
             modelBuilder.Entity<PatientLabVisit>().Property(x => x.Result_date);
             modelBuilder.Entity<PatientLabVisit>().Property(x => x.CreatedAt).IsRequired().HasDefaultValue(DateTime.Now);
+            modelBuilder.Entity<PatientLabVisit>()
+                .HasOne(e => e.Patient)
+                .WithMany(e => e.PatientLabVisits)
+                .HasForeignKey(e => e.Patient_id)
+                .HasForeignKey(x => x.Patient_id);
+                // .IsRequired()
+                // .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<PatientVisitHistory>().ToTable("patient_visit_history");
             modelBuilder.Entity<PatientVisitHistory>().HasKey(a => a.Id);
@@ -52,7 +60,12 @@ namespace aspnetapp.DataAccessLayer.DBContexts
             modelBuilder.Entity<PatientVisitHistory>().Property(x => x.Nurse_name_2).HasMaxLength(100);
             modelBuilder.Entity<PatientVisitHistory>().Property(x => x.Visit_date).IsRequired();
             modelBuilder.Entity<PatientVisitHistory>().Property(x => x.CreatedAt).IsRequired().HasDefaultValue(DateTime.Now);
-
+            modelBuilder.Entity<PatientVisitHistory>()
+                .HasOne(e => e.Patient)
+                .WithMany(e => e.PatientVisitHistories)
+                .HasForeignKey(e => e.Patient_id); 
+                // .IsRequired()
+                // .OnDelete(DeleteBehavior.Cascade);
             
             
             modelBuilder.Entity<PatientLabResult>().ToTable("patient_lab_result");
@@ -63,6 +76,14 @@ namespace aspnetapp.DataAccessLayer.DBContexts
             modelBuilder.Entity<PatientLabResult>().Property(x => x.Test_observation).HasMaxLength(200);
             modelBuilder.Entity<PatientLabResult>().Property(x => x.Test_result).HasMaxLength(100);
             modelBuilder.Entity<PatientLabResult>().Property(x => x.CreatedAt).IsRequired().HasDefaultValue(DateTime.Now);
+            modelBuilder.Entity<PatientLabResult>()
+                .HasOne(e => e.Patient)
+                .WithMany(e => e.PatientLabResults)
+                .HasForeignKey(e => e.Patient_id);
+                // .IsRequired()
+                // .OnDelete(DeleteBehavior.Cascade);
+
+            
             
             modelBuilder.Entity<PatientMedication>().ToTable("patient_medicine");
             modelBuilder.Entity<PatientMedication>().HasKey(a => a.Id);
@@ -75,6 +96,13 @@ namespace aspnetapp.DataAccessLayer.DBContexts
             modelBuilder.Entity<PatientMedication>().Property(x => x.Prescribed_by).HasMaxLength(100);
             modelBuilder.Entity<PatientMedication>().Property(x => x.Prescription_period).HasMaxLength(100);
             modelBuilder.Entity<PatientMedication>().Property(x => x.CreatedAt).IsRequired().HasDefaultValue(DateTime.Now);
+            modelBuilder.Entity<PatientMedication>()
+                .HasOne(e => e.Patient)
+                .WithMany(e => e.PatientMedications)
+                .HasForeignKey(e => e.Patient_id);
+                // .IsRequired()
+                // .OnDelete(DeleteBehavior.Cascade);
+
             
             modelBuilder.Entity<PatientVaccinationData>().ToTable("patient_vaccination_data");
             modelBuilder.Entity<PatientVaccinationData>().HasKey(a => a.Id);
@@ -85,8 +113,17 @@ namespace aspnetapp.DataAccessLayer.DBContexts
             modelBuilder.Entity<PatientVaccinationData>().Property(x => x.Vaccine_validity).HasMaxLength(100);
             modelBuilder.Entity<PatientVaccinationData>().Property(x => x.Administered_by).HasMaxLength(100);
             modelBuilder.Entity<PatientVaccinationData>().Property(x => x.CreatedAt).IsRequired().HasDefaultValue(DateTime.Now);
+            modelBuilder.Entity<PatientVaccinationData>()
+                .HasOne(e => e.Patient)
+                .WithMany(e => e.PatientVaccinationDatas)
+                .HasForeignKey(e => e.Patient_id);
+                // .IsRequired()
+                // .OnDelete(DeleteBehavior.Cascade);
 
-         
+
+            
+            // the data part
+            
             modelBuilder.Entity<Patient>().HasData(
                 new Patient
                 {
