@@ -66,7 +66,6 @@ namespace aspnetapp.Controllers
         #region HttpGet
 
         [HttpGet("{patientId}", Name = nameof(GetPatientByPatientId))]
-        
         //[ResponseCache(Duration = 60)]                                        
         //[HttpCacheExpiration(CacheLocation = CacheLocation.Public, MaxAge = 1800)] 
         //[HttpCacheValidation(MustRevalidate = false)]                              
@@ -139,9 +138,8 @@ namespace aspnetapp.Controllers
         */
 
         [HttpGet(Name = nameof(GetAllPatients))]
-        public ActionResult GetAllPatients()
+        public async Task<IActionResult> GetAllPatients()
         {
-            
             var patients = _patientRepository.GetPatients();
             if (patients == null)
             {
@@ -152,12 +150,8 @@ namespace aspnetapp.Controllers
             {
                 return Ok(patientDtos);
             }
-
             return NotFound();
-            
         }
-
-
         #endregion HttpGet
         
     }

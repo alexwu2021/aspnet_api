@@ -13,10 +13,10 @@ namespace aspnetapp.DataAccessLayer.Repositories
         void AddPatient(Patient patient);
         //bool Save();
         
-        bool IsPatientRegistered(long patientId);
-
-
+        
+        
         Task<Patient> GetPatientAsync(int patientId);
-         Task<bool> IsPatientExistingAsync(int patientId);
+        
+        Task<bool> IsPatientExistingAsync(int patientId);
     }
 }

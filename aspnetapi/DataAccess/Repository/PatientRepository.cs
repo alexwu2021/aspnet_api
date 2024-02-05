@@ -18,6 +18,7 @@ namespace aspnetapp.DataAccessLayer.Repositories
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
+        
         public IEnumerable<Patient> GetPatients()
         {
             Console.WriteLine("GetPatients invoked inside PatientRepository");
