@@ -9,17 +9,17 @@ namespace aspnetapp.Model.Dto;
 
 public abstract class PatientAndOrUpdateDto : IValidatableObject
 {
-    [Display(Name = "Patient ID")]
-    [Required(ErrorMessage = "{0} is a must have item")]
+    
+    //[Required(ErrorMessage = "{0} is a must have item")]
     public int Id { get; set; }
     
     public string Email { get; set; }
     
-    [Required(ErrorMessage = "{0} is a must have item")]
+    //[Required(ErrorMessage = "{0} is a must have item")]
     public string FirstName { get; set; }
     public string MiddleName { get; set; }
     
-    [Required(ErrorMessage = "{0} is a must have item")]
+    //[Required(ErrorMessage = "{0} is a must have item")]
     public string LastName { get; set; }
     
     public DateTime Dob { get; set; }

@@ -34,6 +34,7 @@ namespace aspnetapp.DataAccessLayer.Repositories
         {
             if (patientId <= 0)
             {
+                // for debugging, we will return a dummy object for non dev envs
                 throw new ArgumentNullException(nameof(patientId));
             }
 

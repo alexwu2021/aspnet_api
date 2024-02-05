@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reflection.Metadata;
 using System.Resources;
 using System.Security.Principal;
 using System.Text;
@@ -38,13 +39,13 @@ namespace aspnetapp.Controllers
     [ApiController]
     [Route("api/v1/patient/")]
     //[ResponseCache(CacheProfileName = "120sCacheProfile")]  // TODO: will create cache profile
-    public class PatientsController : ControllerBase
+    public class PatientController : ControllerBase
     {
         private readonly IPatientRepository _patientRepository;
         //private readonly IMapper _mapper; // TODO: for now just hard coded, we will move towards assembly-wide auto config
-        private Mapper _mapper;
+        Mapper _mapper;
         
-        public PatientsController(IPatientRepository patientRepository
+        public PatientController(IPatientRepository patientRepository
             //, IMapper mapper // TODO: for now just hard coded, we will move towards assembly-wide auto config 
             )
         {
@@ -58,6 +59,8 @@ namespace aspnetapp.Controllers
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Patient, PatientDto>();
+                cfg.CreateMap<PatientAddDto, Patient>();
+                cfg.CreateMap<PatientUpdateDto, Patient>();
             });
             _mapper = new Mapper(config);
         }
@@ -70,8 +73,6 @@ namespace aspnetapp.Controllers
         //[HttpCacheExpiration(CacheLocation = CacheLocation.Public, MaxAge = 1800)] 
         //[HttpCacheValidation(MustRevalidate = false)]                              
         public async Task<IActionResult> GetPatientByPatientId(int patientId) {
-            
-            //GetAuthorToken();
             
             if (await _patientRepository.IsPatientExistingAsync(patientId))
             {
@@ -158,14 +159,19 @@ namespace aspnetapp.Controllers
         
         #region HttpPost
         
-        [HttpPost("{patientAddDto}", Name = nameof(CreatePatient))]
-        //[Consumes("application/json")]
+        
+        [HttpPost()]
+        //[Route("create")]
+        //[Consumes("application/json", "multipart/form-data")]
         public async Task<IActionResult> CreatePatient([FromBody]PatientAddDto patientAddDto)
         {
+            
             var entity = _mapper.Map<Patient>(patientAddDto);
             _patientRepository.AddPatient(entity);
             await _patientRepository.SaveAsync();
-            return null;//CreatedAtRoute(nameof(GetCompany), new { companyId = entity.Id }, shapedData);
+            
+            //return null;//CreatedAtRoute(nameof(GetCompany), new { companyId = entity.Id }, shapedData);
+            return NotFound();
         }
         #endregion
     }
