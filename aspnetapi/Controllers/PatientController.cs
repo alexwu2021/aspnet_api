@@ -7,13 +7,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 
-using System.IdentityModel.Tokens.Jwt; 
+ 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Resources;
 using System.Security.Principal;
 using System.Text;
 using System.Threading;
@@ -24,7 +25,11 @@ using aspnetapp.DataAccessLayer.Repositories;
 using aspnetapp.Model;
 using aspnetapp.Model.Dto;
 using AutoMapper;
+using IdentityModel;
+using IdentityModel.Client;
 using Marvin.Cache.Headers;
+using Microsoft.AspNetCore.Authentication;
+
 using Newtonsoft.Json.Linq;
 
 
@@ -32,11 +37,11 @@ namespace aspnetapp.Controllers
 {
     [ApiController]
     [Route("api/v1/patient/")]
-    //[ResponseCache(CacheProfileName = "120sCacheProfile")]  //允许被缓存120秒（视频P46）
+    //[ResponseCache(CacheProfileName = "120sCacheProfile")]  // TODO: WILL CREATE 
     public class PatientsController : ControllerBase
     {
         private readonly IPatientRepository _patientRepository;
-        //private readonly IMapper _mapper;
+        //private readonly IMapper _mapper; // TODO: WILL USE ASSEMBLY WIDE DI
         private Mapper _mapper;
         
         public PatientsController(IPatientRepository patientRepository
@@ -70,10 +75,8 @@ namespace aspnetapp.Controllers
               //                                                  [FromQuery]PatientDtoParameters parameters
             )
         {
-
-
-            GetAuthorToken();
             
+            GetAuthorToken();
             
             // use await should
             if (_patientRepository.IsPatientRegistered(patientId))
@@ -91,6 +94,8 @@ namespace aspnetapp.Controllers
                 return NotFound();
             }
         }
+            
+        
 
         private async  void GetAuthorToken()
         {
@@ -100,51 +105,27 @@ namespace aspnetapp.Controllers
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
             request.Content = new StringContent(body, Encoding.UTF8, "application/json");
             
+            
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept
                 .Add(new MediaTypeWithQualityHeaderValue("application/json")); 
             request.Content = new StringContent(body,Encoding.UTF8, "application/json");
             string tokenRetrieved = string.Empty;
             HttpResponseMessage response =  await client.PostAsync(url, request.Content);
-            JValue val = (JValue)(response.Content.ReadAsStringAsync().Result);
-
-            var tt = val.First;
-            var pp = val.SelectToken("jwt");
-
-            //JObject jsonResult = response.Content.ReadAsAsync<JObject>().Result;
-            //string auth0MgtToken = jsonResult.Value<string>("access_token");
-
-
-            /*
-
-            httpClient.DefaultRequestHeaders.Add("ContentType", "application/json");
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(credential);
-            string val = System.Convert.ToBase64String(plainTextBytes);
-            httpClient.DefaultRequestHeaders.Add("Authorization", "Basic " + val);
+            
             try
             {
-                HttpResponseMessage response = httpClient.PostAsync(url).Result;
-                int encodingCodePage = 0127; // Encoding.ASCII;
-                //encodingCodePage = 28591; // Encoding.Latin1;
-                using (StreamReader stream = new StreamReader(response.Content.ReadAsStreamAsync().Result,
-                           System.Text.Encoding.GetEncoding(encodingCodePage)))
-                {
-                    tokenRetrieved = stream.ReadToEnd();
-                    Console.WriteLine("content: " + tokenRetrieved);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Exception : " + e);
-            }
 
+                var sa = response.Content.ReadAsStringAsync().Result.Split(" ,:".ToCharArray());
+                //var tokenHandler = new TokenReader();// sa[1], validationParameters);
+                tokenRetrieved = sa[1];
+                Console.Write("token retrieved: " + tokenRetrieved);
 
-               System.IdentityModel.Tokens.Jwt.
-*/
-            // return tokenRetrieved;
+            } catch (Exception ex) {
+                // Log the reason why the token is not valid
+               Console.Write(ex);
+            }
             
-            
-            //System.IdentityModel.Tokens.Jwt.JwtSecurityToken tt2 = JwtSecurityToken.ReadJwtToken (val.ToString());
         }
         private void SetPrincipal(IPrincipal principal)
         {
