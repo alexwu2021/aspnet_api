@@ -23,7 +23,7 @@
             {
                 if (prefixMatrix == null || prefixMatrix.Length <= 0)
                 {
-                    prefixMatrix = BuildPrefixMatrix(mat, false);    
+                    prefixMatrix = BuildPrefixMatrix(mat);    
                 }
             }
             
@@ -42,7 +42,7 @@
             
         }
 
-        private static int[][] BuildPrefixMatrix(int[][] mat, bool forRow)
+        private static int[][] BuildPrefixMatrix(int[][] mat)
         {
             int m = mat.Length, n = mat[0].Length;
             prefixMatrix = new int [m][];
@@ -74,7 +74,6 @@
             {
                 return true;
             }
-
             return false;
         }
     }

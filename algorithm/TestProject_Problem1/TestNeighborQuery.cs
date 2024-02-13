@@ -2,8 +2,6 @@ using ClassLibraryProb1;
 
 namespace TestProject_Problem1;
 
-
-
 public class TestNeighborQuery
 {
     private int[][] testData;
