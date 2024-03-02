@@ -1,3 +1,8 @@
+
+# Purpose
+This is just a take-home project I did, as part of my interview efforts. I do not agree with the schema they asked me to accomplish.
+
+
 ### Overall Instruction for Environment Setup and Run 
 
 # prerequisite for running this app: you need your access to a mysql instance, local or remote 
